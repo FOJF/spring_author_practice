@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,11 +28,11 @@ public class Author {
     private String email;
     private String password;
     private Boolean deleted;
-    @CurrentTimestamp
+    @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-//    private LocalDateTime passwordUpdatedAt;
+    private LocalDateTime passwordUpdatedAt;
 
     public Author(String name, String email, String password) {
         this.name = name;
@@ -40,9 +41,8 @@ public class Author {
         this.deleted = false;
     }
 
-
-
     public void updatePW(String password) {
         this.password = password;
+        this.passwordUpdatedAt = LocalDateTime.now();
     }
 }

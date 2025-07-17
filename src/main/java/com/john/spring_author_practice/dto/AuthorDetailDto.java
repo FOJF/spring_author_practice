@@ -4,6 +4,7 @@ import com.john.spring_author_practice.domain.Author;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ public class AuthorDetailDto {
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime passwordUpdatedAt;
     private Boolean deleted;
 
     public static AuthorDetailDto fromEntity(Author author) {
@@ -27,6 +29,7 @@ public class AuthorDetailDto {
                 author.getPassword(),
                 author.getCreatedAt(),
                 author.getUpdatedAt(),
+                author.getPasswordUpdatedAt(),
                 author.getDeleted()
         );
     }
