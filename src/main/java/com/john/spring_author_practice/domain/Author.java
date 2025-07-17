@@ -24,6 +24,9 @@ public class Author {
     private Long id;
 
     private String name;
+    private String nickName;
+    private String phoneNumber;
+    private String address;
     @Column(length = 50, unique = true, nullable = false)
     private String email;
     private String password;
