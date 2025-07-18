@@ -1,7 +1,7 @@
 package com.john.spring_author_practice.author.controller;
 
 import com.john.spring_author_practice.author.dto.AuthorDetailDto;
-import com.john.spring_author_practice.author.dto.AuthorListDto;
+import com.john.spring_author_practice.author.dto.AuthorSummaryDto;
 import com.john.spring_author_practice.author.dto.AuthorCreateDto;
 import com.john.spring_author_practice.author.dto.AuthorUpdatePwDto;
 import com.john.spring_author_practice.author.service.AuthorService;
@@ -35,24 +35,24 @@ public class AuthorController {
 
     @GetMapping("/list")
     public ResponseEntity<?> findAll() {
-        List<AuthorListDto> dtos = this.authorService.findAll();
+        List<AuthorSummaryDto> dtos = this.authorService.findAll();
         return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "all authors list is found"), HttpStatus.OK);
     }
 
     @GetMapping("/deletedList")
     public ResponseEntity<?> findAllIsDeleted() {
-        List<AuthorListDto> dtos = this.authorService.findByDeleted(true);
+        List<AuthorSummaryDto> dtos = this.authorService.findByDeleted(true);
         return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "deleted authors list is found"), HttpStatus.OK);
     }
 
     @GetMapping("/undeletedList")
     public ResponseEntity<?> findAllIsUnDeleted() {
-        List<AuthorListDto> dtos = this.authorService.findByDeleted(false);
+        List<AuthorSummaryDto> dtos = this.authorService.findByDeleted(false);
         return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "undeleted authors list is found"), HttpStatus.OK);
     }
 
     @PatchMapping("/updatePW")
-    public ResponseEntity<?> updatePW(@RequestBody AuthorUpdatePwDto authorUpdatePwDto) {
+    public ResponseEntity<?> updatePW(@Valid @RequestBody AuthorUpdatePwDto authorUpdatePwDto) {
         this.authorService.updatePW(authorUpdatePwDto);
         return new ResponseEntity<>(ResponseDto.ofSuccess(authorUpdatePwDto, HttpStatus.OK.value(), "password is updated"), HttpStatus.OK);
     }

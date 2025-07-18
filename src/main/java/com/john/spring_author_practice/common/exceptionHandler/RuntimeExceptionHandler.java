@@ -1,4 +1,4 @@
-package com.john.spring_author_practice.common;
+package com.john.spring_author_practice.common.exceptionHandler;
 
 import com.john.spring_author_practice.common.dto.ResponseDto;
 import jakarta.persistence.EntityExistsException;

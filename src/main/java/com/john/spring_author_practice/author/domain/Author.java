@@ -1,5 +1,7 @@
 package com.john.spring_author_practice.author.domain;
 
+import com.john.spring_author_practice.common.domain.BaseTimeEntity;
+import com.john.spring_author_practice.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,11 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -21,7 +23,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @SQLDelete(sql = "UPDATE author SET deleted = true WHERE id=?")
-public class Author {
+public class Author extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,11 +41,12 @@ public class Author {
     private String password;
     @Builder.Default
     private Boolean deleted = Boolean.FALSE;
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+
     private LocalDateTime passwordUpdatedAt;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
     public void updatePW(String password) {
         this.password = password;

@@ -25,6 +25,8 @@ public class AuthorDetailDto {
     private LocalDateTime passwordUpdatedAt;
     private Boolean deleted;
 
+    private Integer postCount;
+
     public static AuthorDetailDto fromEntity(Author author) {
         return AuthorDetailDto.builder()
                 .id(author.getId())
@@ -38,6 +40,7 @@ public class AuthorDetailDto {
                 .nickName(author.getNickName())
                 .phoneNumber(author.getPhoneNumber())
                 .address(author.getAddress())
+                .postCount(author.getPosts().size())
                 .build();
 
     }

@@ -7,6 +7,10 @@ import com.john.spring_author_practice.post.dto.PostDetailDto;
 import com.john.spring_author_practice.post.dto.PostSummaryDto;
 import com.john.spring_author_practice.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +48,7 @@ public class PostController {
         );
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list-all")
     public ResponseEntity<?> findAll() {
         List<PostSummaryDto> dtos = this.postService.findAll();
         return ResponseEntity.ok(
@@ -52,6 +56,33 @@ public class PostController {
                         .isSuccess(true)
                         .data(dtos)
                         .status(new StatusDto(HttpStatus.OK.value(), "posts found"))
+                        .build()
+        );
+    }
+
+    @GetMapping("/list-undeleted-pageable")
+    // 데이터 요청 예시 : 8080/post/list?page=0&size=20&sort=title,asc
+
+    public ResponseEntity<?> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PostSummaryDto> dtos = this.postService.findAll(pageable);
+        return ResponseEntity.ok(
+                ResponseDto.builder()
+                        .isSuccess(true)
+                        .data(dtos)
+                        .status(new StatusDto(HttpStatus.OK.value(), "posts found"))
+                        .build()
+        );
+    }
+
+    @PatchMapping("/delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        PostDetailDto dto = this.postService.deleteById(id);
+
+        return ResponseEntity.ok(
+                ResponseDto.builder()
+                        .isSuccess(true)
+                        .data(dto)
+                        .status(new StatusDto(HttpStatus.OK.value(), "post is deleted"))
                         .build()
         );
     }

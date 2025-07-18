@@ -2,7 +2,7 @@ package com.john.spring_author_practice.author.service;
 
 import com.john.spring_author_practice.author.domain.Author;
 import com.john.spring_author_practice.author.dto.AuthorDetailDto;
-import com.john.spring_author_practice.author.dto.AuthorListDto;
+import com.john.spring_author_practice.author.dto.AuthorSummaryDto;
 import com.john.spring_author_practice.author.dto.AuthorCreateDto;
 import com.john.spring_author_practice.author.dto.AuthorUpdatePwDto;
 import com.john.spring_author_practice.author.repository.AuthorRepository;
@@ -31,12 +31,12 @@ public class AuthorService {
         return AuthorDetailDto.fromEntity(this.authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("없는 유저 ID 입니다.")));
     }
 
-    public List<AuthorListDto> findAll() {
-        return this.authorRepository.findAll().stream().map(AuthorListDto::fromEntity).toList();
+    public List<AuthorSummaryDto> findAll() {
+        return this.authorRepository.findAll().stream().map(AuthorSummaryDto::fromEntity).toList();
     }
 
-    public List<AuthorListDto> findByDeleted(Boolean deleted) {
-        return this.authorRepository.findByDeleted(deleted).stream().map(AuthorListDto::fromEntity).toList();
+    public List<AuthorSummaryDto> findByDeleted(Boolean deleted) {
+        return this.authorRepository.findByDeleted(deleted).stream().map(AuthorSummaryDto::fromEntity).toList();
     }
 
     public void updatePW(AuthorUpdatePwDto authorUpdatePwDto) {

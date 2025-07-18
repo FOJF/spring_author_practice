@@ -10,6 +10,8 @@ import com.john.spring_author_practice.post.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,5 +35,15 @@ public class PostService {
 
     public List<PostSummaryDto> findAll() {
         return this.postRepository.findAll().stream().map(PostSummaryDto::fromEntity).toList();
+    }
+
+    public Page<PostSummaryDto> findAll(Pageable pageable) {
+        return this.postRepository.findAllByDeleted(pageable, Boolean.FALSE).map(PostSummaryDto::fromEntity);
+    }
+
+    public PostDetailDto deleteById(Long id) {
+        Post post = this.postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("없는 포스트 ID 입니다."));
+        post.delete();
+        return PostDetailDto.fromEntity(post);
     }
 }

@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuthorListDto {
+public class AuthorSummaryDto {
     private Long id;
     private String name;
     private String email;
     private LocalDateTime createdAt;
     private boolean isDeleted;
 
-    public static AuthorListDto fromEntity(Author author) {
-        return AuthorListDto.builder()
+    public static AuthorSummaryDto fromEntity(Author author) {
+        return AuthorSummaryDto.builder()
                 .id(author.getId())
                 .name(author.getName())
                 .email(author.getEmail())
