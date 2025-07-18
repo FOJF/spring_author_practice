@@ -1,6 +1,7 @@
 package com.john.spring_author_practice.post.controller;
 
 import com.john.spring_author_practice.common.dto.ResponseDto;
+import com.john.spring_author_practice.common.dto.StatusDto;
 import com.john.spring_author_practice.post.dto.PostCreateDto;
 import com.john.spring_author_practice.post.dto.PostDetailDto;
 import com.john.spring_author_practice.post.dto.PostSummaryDto;
@@ -19,41 +20,38 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> create(@RequestBody PostCreateDto postCreateDto) {
+    public ResponseEntity<?> create(@RequestBody PostCreateDto postCreateDto) {
         PostSummaryDto dto = this.postService.save(postCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
                         ResponseDto.builder()
                                 .isSuccess(true)
-                                .result(dto)
-                                .statusCode(HttpStatus.CREATED.value())
-                                .statusMessage("post is created")
+                                .data(dto)
+                                .status(new StatusDto(HttpStatus.CREATED.value(), "post is created"))
                                 .build()
                 );
     }
 
     @GetMapping("/detail/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         PostDetailDto dto = this.postService.findById(id);
         return ResponseEntity.ok(
                 ResponseDto.builder()
                         .isSuccess(true)
-                        .result(dto)
-                        .statusCode(HttpStatus.OK.value())
-                        .statusMessage("post found")
+                        .data(dto)
+                        .status(new StatusDto(HttpStatus.OK.value(), "post found"))
                         .build()
         );
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ResponseDto> findAll() {
+    public ResponseEntity<?> findAll() {
         List<PostSummaryDto> dtos = this.postService.findAll();
         return ResponseEntity.ok(
                 ResponseDto.builder()
                         .isSuccess(true)
-                        .result(dtos)
-                        .statusCode(HttpStatus.OK.value())
-                        .statusMessage("posts found")
+                        .data(dtos)
+                        .status(new StatusDto(HttpStatus.OK.value(), "posts found"))
                         .build()
         );
     }

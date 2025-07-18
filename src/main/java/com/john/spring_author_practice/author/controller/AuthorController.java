@@ -22,45 +22,45 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> create(@Valid @RequestBody AuthorCreateDto authorCreateDto) {
+    public ResponseEntity<?> create(@Valid @RequestBody AuthorCreateDto authorCreateDto) {
         AuthorDetailDto dto = this.authorService.save(authorCreateDto);
-        return new ResponseEntity<>(new ResponseDto(true, dto, HttpStatus.CREATED.value(), "author is created"), HttpStatus.CREATED);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(dto, HttpStatus.CREATED.value(), "author is created"), HttpStatus.CREATED);
     }
 
     @GetMapping("detail/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         AuthorDetailDto dto = this.authorService.findById(id);
-        return new ResponseEntity<>(new ResponseDto(true, dto, HttpStatus.OK.value(), "author is found"), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(dto, HttpStatus.OK.value(), "author is found"), HttpStatus.OK);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ResponseDto> findAll() {
+    public ResponseEntity<?> findAll() {
         List<AuthorListDto> dtos = this.authorService.findAll();
-        return new ResponseEntity<>(new ResponseDto(true, dtos, HttpStatus.OK.value(), "all authors list is found"), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "all authors list is found"), HttpStatus.OK);
     }
 
     @GetMapping("/deletedList")
-    public ResponseEntity<ResponseDto> findAllIsDeleted() {
+    public ResponseEntity<?> findAllIsDeleted() {
         List<AuthorListDto> dtos = this.authorService.findByDeleted(true);
-        return new ResponseEntity<>(new ResponseDto(true, dtos, HttpStatus.OK.value(), "deleted authors list is found"), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "deleted authors list is found"), HttpStatus.OK);
     }
 
     @GetMapping("/undeletedList")
-    public ResponseEntity<ResponseDto> findAllIsUnDeleted() {
+    public ResponseEntity<?> findAllIsUnDeleted() {
         List<AuthorListDto> dtos = this.authorService.findByDeleted(false);
-        return new ResponseEntity<>(new ResponseDto(true, dtos, HttpStatus.OK.value(), "undeleted authors list is found"), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(dtos, HttpStatus.OK.value(), "undeleted authors list is found"), HttpStatus.OK);
     }
 
     @PatchMapping("/updatePW")
     public ResponseEntity<?> updatePW(@RequestBody AuthorUpdatePwDto authorUpdatePwDto) {
         this.authorService.updatePW(authorUpdatePwDto);
-        return new ResponseEntity<>(new ResponseDto(true, authorUpdatePwDto, HttpStatus.OK.value(), "password is updated"),HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(authorUpdatePwDto, HttpStatus.OK.value(), "password is updated"), HttpStatus.OK);
     }
 
     @PatchMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         this.authorService.delete(id);
-        return new ResponseEntity<>(new ResponseDto(true, id, HttpStatus.OK.value(), "user is deleted"), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.ofSuccess(id, HttpStatus.OK.value(), "user is deleted"), HttpStatus.OK);
     }
 
 
